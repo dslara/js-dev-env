@@ -5,7 +5,7 @@ import open from 'open';
 import webpack from 'webpack';
 import config from '../webpack.congig.dev';
 
-const port = 3000;
+const port = 3333;
 const app = express();
 const compiler = webpack(config);
 
