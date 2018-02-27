@@ -1,3 +1,4 @@
+
 const pages = [
   {
     output: './index.html',
