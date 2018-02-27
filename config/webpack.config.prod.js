@@ -2,13 +2,12 @@
 const webpack = require('webpack');
 const path = require('path');
 const webpackMerge = require('webpack-merge');
-const baseConfig = require('./webpack.config.base.js');
+const baseConfig = require('./webpack.config.base');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const dist = path.join(__dirname, '../dist');
 
 module.exports = webpackMerge(baseConfig, {
   output: {
-    path: dist,
+    path: path.resolve(__dirname, '../dist'),
     filename: './[name].[chunkhash].js'
   },
   module: {

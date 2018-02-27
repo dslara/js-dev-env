@@ -2,14 +2,13 @@
 const webpack = require('webpack');
 const path = require('path');
 const webpackMerge = require('webpack-merge');
-const baseConfig = require('./webpack.config.base.js');
+const baseConfig = require('./webpack.config.base');
 const devServer = require('webpack-dev-server');
-const dist = path.join(__dirname, '../dist');
 
 module.exports = webpackMerge(baseConfig, {
   output: {
     filename: '[name].js',
-    path: dist
+    path: path.resolve(__dirname, '../dist')
   },
   module: {
     rules: [
@@ -36,14 +35,8 @@ module.exports = webpackMerge(baseConfig, {
   devtool: 'eval',
   devServer: {
     port: 3333,
-    contentBase: dist,
-    historyApiFallback: true,
-    compress: false,
-    inline: true,
-    hot: true,
-    stats: {
-      chunks: false
-    }
+    contentBase: path.resolve(__dirname, '../src'),
+    watchContentBase: true
   },
   plugins: [
     new webpack.NamedModulesPlugin(),
