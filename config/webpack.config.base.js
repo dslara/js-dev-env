@@ -2,22 +2,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const pages = require('./config.pages');
-
-let renderedPages = [];
-
-for (let i = 0; i < pages.length; i++) {
-  let page = Object.assign({}, pages[i]);
-
-  renderedPages.push(
-    new HtmlWebpackPlugin({
-      template: page.template,
-      filename: page.output,
-      title: page.content.title,
-      description: page.content.description
-    })
-  );
-}
+const pages = require('./webpack.config.pages');
 
 module.exports = {
   entry: {
@@ -54,5 +39,20 @@ module.exports = {
   },
   plugins: []
 };
+
+let renderedPages = [];
+
+for (let i = 0; i < pages.length; i++) {
+  let page = Object.assign({}, pages[i]);
+
+  renderedPages.push(
+    new HtmlWebpackPlugin({
+      template: page.template,
+      filename: page.output,
+      title: page.content.title,
+      description: page.content.description
+    })
+  );
+}
 
 module.exports.plugins = module.exports.plugins.concat(renderedPages)

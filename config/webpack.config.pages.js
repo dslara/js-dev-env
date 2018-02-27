@@ -18,4 +18,4 @@ const pages = [
   }
 ]
 
-module.exports = pages
+module.exports = pages;
