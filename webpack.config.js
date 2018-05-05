@@ -2,7 +2,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const devServer = require('webpack-dev-server');
-const merge = require('webpack-merge');
 
 const pages = require('./config/config.pages');
 
@@ -55,7 +54,8 @@ const baseConfig = {
         loader: 'handlebars-loader',
         query: {
           partialDirs: [
-            path.join(__dirname, '../docs', 'layouts')
+            path.join(__dirname, './docs', 'layouts'),
+            path.join(__dirname, './src', 'pages'),
           ]
         }
       }
