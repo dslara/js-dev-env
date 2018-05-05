@@ -2,10 +2,11 @@
 const path = require('path');
 const webpack = require('webpack');
 const devServer = require('webpack-dev-server');
+const merge = require('webpack-merge');
+
 const pages = require('./config/config.pages');
 
-module.exports = {
-  mode: 'none',
+const baseConfig = {
   entry: {
     app: ['./src/app.js']
   },
@@ -27,7 +28,9 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: "babel-loader",
-        options: { presets: ['es2015'] }
+        options: {
+          presets: ['env']
+        }
       },
       {
         test: /\.scss$/,
@@ -48,14 +51,6 @@ module.exports = {
         ]
       },
       {
-        test: /\.woff2$/,
-        loader: 'file-loader?name=fonts/[name].woff2'
-      },
-      {
-        test: /\.ico$/,
-        loader: 'file-loader?[name].ico'
-      },
-      {
         test: /\.hbs$/,
         loader: 'handlebars-loader',
         query: {
@@ -72,4 +67,6 @@ module.exports = {
   ]
 }
 
-module.exports.plugins = module.exports.plugins.concat(pages)
+baseConfig.plugins = baseConfig.plugins.concat(pages);
+
+module.exports = baseConfig;

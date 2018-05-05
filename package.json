@@ -4,10 +4,8 @@
   "description": "Starter Kit",
   "private": true,
   "scripts": {
-    "build": "webpack --config webpack.config.js",
-    "server": "nodemon -w webpack.config.js -x webpack-dev-server",
-    "serve": "webpack-dev-server --config webpack.config.js",
-    "test": "nodemon -w config/tests.js"
+    "build": "webpack --config webpack.config.js --mode production",
+    "start": "nodemon -w webpack.config.js -x webpack-dev-server --mode development"
   },
   "author": "Daniel Lara",
   "license": "MIT",
