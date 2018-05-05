@@ -1,2 +1,4 @@
 
-import './styles/main.scss';
+import './modules/main.scss';
+
+console.log('test')
