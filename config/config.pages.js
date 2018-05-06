@@ -1,30 +1,24 @@
 
+const path = require('path');
+const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const config = [
-  {
-    output: './index.html',
-    content: {
-      title: 'Home',
-      description: 'Home Page'
-    },
-    template: './docs/pages/index.hbs'
-  }
-]
+const folderPath = './docs/pages/';
+const EXTENSION = '.hbs';
+const files = fs.readdirSync(folderPath);
 
+let hbsFilter = (file) => path.extname(file).toLowerCase() === EXTENSION;
+let hbsFiles = files.filter(hbsFilter);
 let pages = [];
 
-for (let i = 0; i < config.length; i++) {
-  let page = Object.assign({}, config[i]);
+hbsFiles.forEach(file => {
 
   pages.push(
     new HtmlWebpackPlugin({
-      template: page.template,
-      filename: page.output,
-      title: page.content.title,
-      description: page.content.description
+      template: folderPath + file,
+      filename: path.basename(file, EXTENSION) + '.html'
     })
   );
-}
+})
 
 module.exports = pages;
