@@ -1,8 +1,8 @@
 
 const path = require('path');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const devServer = require('webpack-dev-server');
-
 const pages = require('./config/config.pages');
 
 const baseConfig = {
@@ -18,7 +18,8 @@ const baseConfig = {
     publicPath: '/',
     contentBase: path.resolve(__dirname, './src'),
     watchContentBase: true,
-    hotOnly: true
+    hotOnly: true,
+    stats: 'errors-only',
   },
   devtool: 'eval',
   module: {
@@ -51,22 +52,25 @@ const baseConfig = {
       },
       {
         test: /\.hbs$/,
-        loader: 'handlebars-loader',
-        query: {
-          partialDirs: [
-            path.join(__dirname, './docs', 'layouts'),
-            path.join(__dirname, './src', 'pages'),
-          ]
-        }
+        use: [
+          {
+            loader: 'html-loader'
+          },
+          {
+            loader: 'assemble-webpack-loader',
+            options: {
+              layouts: path.resolve('./docs/**/*.hbs'),
+              partials: path.resolve('./src/modules/**/*.hbs')
+            }
+          }
+        ]
       }
     ]
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin(),
-  ]
+    new webpack.NamedModulesPlugin()
+  ].concat(pages)
 }
-
-baseConfig.plugins = baseConfig.plugins.concat(pages);
 
 module.exports = baseConfig;
