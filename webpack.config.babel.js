@@ -1,73 +1,28 @@
 
-import path from 'path'
-import webpack from 'webpack'
-import devServer from 'webpack-dev-server'
-import MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import AssembleWebpack from './config/assemble.plugin'
-import projectPaths from './config/paths.config'
-import pagesConfig from './config/pages.config'
-import scriptsConfig from './config/scripts.config'
-import styleConfig from './config/style.config'
-import fileConfig from './config/file.config'
+import merge from "webpack-merge"
+import base from './config/base.config'
+import devServer from './config/server.config'
+import styles from './config/style.config'
+import scripts from './config/scripts.config'
+import templates from './config/templates.config'
+import plugins from './config/plugins.config'
 
-const styles = {
-  test: /\.scss$/,
-  use: [{ loader: 'style-loader', options: { sourceMap: true }}, MiniCssExtractPlugin.loader].concat(styleConfig)
-};
+const productionConfig = merge([])
 
-const baseConfig = {
-  entry: {
-    main: [
-      path.resolve(__dirname, `${projectPaths.src}/app.js`)
-    ]
-  },
-  output: {
-    filename: '[name].js',
-    path: path.resolve(__dirname, projectPaths.dist),
-    publicPath: '/'
-  },
-  devServer: {
-    port: 3333,
-    publicPath: '/',
-    contentBase: path.resolve(__dirname, projectPaths.src),
-    watchContentBase: true,
-    hotOnly: true,
-    overlay: true,
-    stats: 'errors-only'
-  },
-  devtool: 'eval',
-  module: {
-    rules: [
-      scriptsConfig,
-      styles,
-      {
-        test: /\.(hbs)$/,
-        use: [
-          {
-            loader: 'handlebars-loader'
-          },
-          {
-            loader: path.resolve('./config/assemble.loader.js')
-          }
-        ]
-      }
-    ]
-  },
-  plugins: [
-    new AssembleWebpack({
-      baseLayout: `${projectPaths.docs}/layouts/*.hbs`,
-      basePages: [`${projectPaths.docs}/pages/**/*.hbs`],
-      partialsLayout: [`${projectPaths.src}/modules/**/*.hbs`],
-    }),
-    //new HtmlWebpackPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new MiniCssExtractPlugin({
-      filename: "[name].css"
-    })
-  ]
+const developmentConfig = merge ([
+  devServer({ port: 3333 })
+]);
+
+const commonConfig = (mode) => merge([
+  base(),
+  scripts(),
+  styles(mode),
+  templates(),
+  plugins()
+])
+
+const config = mode => {
+  return merge((mode === 'production') ? productionConfig : developmentConfig, commonConfig(mode), { mode })
 }
 
-baseConfig.plugins = baseConfig.plugins.concat(pagesConfig);
-baseConfig.module.rules = baseConfig.module.rules.concat(fileConfig);
-
-export default baseConfig
+export default config

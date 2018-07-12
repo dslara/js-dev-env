@@ -1,9 +1,9 @@
 
-const projectPaths = {
-  root: './',
-  src: './src',
-  docs: './docs',
-  dist: './dist'
+const PATHS = {
+  ROOT: './',
+  SRC: './src',
+  DOCS: './docs',
+  DIST: './dist'
 }
 
-export default projectPaths
+export default PATHS

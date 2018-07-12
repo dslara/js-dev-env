@@ -2,8 +2,9 @@
 import path from 'path'
 import fs from 'fs'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
+import PATHS from './paths.config'
 
-const folderPath = './docs/pages/';
+const folderPath = `${PATHS.DOCS}/pages/`;
 const EXTENSION = '.hbs';
 const files = fs.readdirSync(folderPath);
 
