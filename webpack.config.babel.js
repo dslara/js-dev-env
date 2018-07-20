@@ -10,7 +10,7 @@ import plugins from './config/plugins.config'
 const productionConfig = merge([])
 
 const developmentConfig = merge ([
-  devServer({ port: 3333 })
+  devServer()
 ]);
 
 const commonConfig = (mode) => merge([

@@ -7,9 +7,6 @@ const base = () => ({
   entry: {
     main: [
       path.resolve(__dirname, `../${PATHS.SRC}/app.js`)
-    ],
-    hmr: [
-      "webpack-dev-server/client?http://localhost:3333"
     ]
   },
   output: {
