@@ -6,6 +6,7 @@ import styles from './config/style.config'
 import scripts from './config/scripts.config'
 import templates from './config/templates.config'
 import plugins from './config/plugins.config'
+import PATHS from "./config/paths.config";
 
 const productionConfig = merge([])
 
@@ -17,7 +18,7 @@ const commonConfig = (mode) => merge([
   base(),
   scripts(),
   styles(mode),
-  templates(),
+  templates(PATHS.LAYOUTS, PATHS.PARTIALS),
   plugins()
 ])
 

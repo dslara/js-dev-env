@@ -1,16 +1,13 @@
 
 import path from 'path'
 import fs from 'fs'
-import PATHS from './paths.config'
 
-const getPartialsPath = (basePath = `${PATHS.SRC}/modules`) => {
+const getDirs = (basePath) => {
   const files = fs.readdirSync(basePath)
-  const folderFilter = (item) => !path.extname(item)
-  const foldersFirstLevel = files.filter(folderFilter)
-  return foldersFirstLevel.map(folder => path.resolve(__dirname, `../${basePath}/${folder}`))
+  return files.filter(item => !path.extname(item)).map(folder => path.resolve(__dirname, `../${basePath}/${folder}`))
 }
 
-const templates = () => ({
+const templates = (layouts, partials) => ({
 
   module: {
     rules: [
@@ -21,8 +18,9 @@ const templates = () => ({
             loader: 'handlebars-loader',
             query: {
               partialDirs: [].concat(
-                getPartialsPath(),
-                getPartialsPath(`${PATHS.SRC}/modules/component`)
+                getDirs(layouts),
+                getDirs(partials),
+                getDirs(`${partials}/component`)
               )
             }
           }
