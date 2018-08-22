@@ -20,7 +20,7 @@ const templates = (layouts, partials) => ({
               partialDirs: [].concat(
                 getDirs(layouts),
                 getDirs(partials),
-                getDirs(`${partials}/component`)
+                getDirs(`${partials}/patterns/form`)
               )
             }
           }
