@@ -1,8 +1,13 @@
 
 import path from 'path'
-import PATHS from './paths.config'
+import fs from 'fs'
 
-const templates = () => ({
+const getDirs = (basePath) => {
+  const files = fs.readdirSync(basePath)
+  return files.filter(item => !path.extname(item)).map(folder => path.resolve(__dirname, `../${basePath}/${folder}`))
+}
+
+const templates = (layouts, partials) => ({
 
   module: {
     rules: [
@@ -10,14 +15,12 @@ const templates = () => ({
         test: /\.hbs$/,
         use: [
           {
-            loader: 'html-loader'
-          },
-          {
-            loader: path.resolve(__dirname, './assemble.config.js'),
-            options: {
-              layouts: path.resolve(__dirname, `../${PATHS.DOCS}/**/*.hbs`),
-              partials: path.resolve(__dirname, `../${PATHS.SRC}/modules/**/*.hbs`),
-              data: path.resolve(__dirname, `../${PATHS.SRC}/modules/**/*.json`)
+            loader: 'handlebars-loader',
+            query: {
+              partialDirs: [].concat(
+                getDirs(layouts),
+                getDirs(partials)
+              )
             }
           }
         ]

@@ -5,6 +5,7 @@ import PATHS from './paths.config'
 
 const plugin = new MiniCssExtractPlugin({
   filename: "[name].css",
+  allChunks: true
 });
 
 const styles = (env) => ({
@@ -15,6 +16,9 @@ const styles = (env) => ({
         use: [
           {
             loader: 'style-loader',
+            options: {
+              sourceMap: true
+            }
           },
           MiniCssExtractPlugin.loader,
           {
@@ -23,9 +27,6 @@ const styles = (env) => ({
               importLoaders: 3,
               sourceMap: true
             }
-          },
-          {
-            loader: 'resolve-url-loader'
           },
           {
             loader: 'postcss-loader',
@@ -39,10 +40,13 @@ const styles = (env) => ({
             }
           },
           {
+            loader: "resolve-url-loader"
+          },
+          {
             loader: 'sass-loader',
             options: {
               sourceMap: true,
-              path: path.resolve(__dirname, `../${PATHS.ROOT}`)
+              path: path.resolve(__dirname, `../${PATHS.DIST}`)
             }
           }
         ]
