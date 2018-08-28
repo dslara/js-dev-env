@@ -19,8 +19,7 @@ const templates = (layouts, partials) => ({
             query: {
               partialDirs: [].concat(
                 getDirs(layouts),
-                getDirs(partials),
-                getDirs(`${partials}/patterns/form`)
+                getDirs(partials)
               )
             }
           }
